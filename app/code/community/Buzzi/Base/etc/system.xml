@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <tabs>
+        <buzzi translate="label">
+            <label>Buzzi.io</label>
+            <sort_order>500</sort_order>
+        </buzzi>
+    </tabs>
+    <sections>
+        <buzzi_base translate="label">
+            <label>Base Configuration</label>
+            <tab>buzzi</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <plugin_info>
+                    <frontend_model>buzzi_base/adminhtml_system_info</frontend_model>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                </plugin_info>
+                <general translate="label">
+                    <label>General</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </enabled>
+                    </fields>
+                </general>
+                <api translate="label">
+                    <label>API</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <environment translate="label">
+                            <label>Environment</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>buzzi_base/config_system_source_environment</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                            </depends>
+                        </environment>
+                        <production_id translate="label">
+                            <label>Production ID</label>
+                            <sort_order>20</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <environment>production</environment>
+                            </depends>
+                        </production_id>
+                        <production_secret translate="label">
+                            <label>Production Secret</label>
+                            <sort_order>30</sort_order>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <environment>production</environment>
+                            </depends>
+                        </production_secret>
+                        <sandbox_id translate="label">
+                            <label>Sandbox ID</label>
+                            <sort_order>40</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <environment>sandbox</environment>
+                            </depends>
+                        </sandbox_id>
+                        <sandbox_secret translate="label">
+                            <label>Sandbox Secret</label>
+                            <sort_order>50</sort_order>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <environment>sandbox</environment>
+                            </depends>
+                        </sandbox_secret>
+                        <custom_host translate="label">
+                            <label>Custom Host</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <environment>custom</environment>
+                            </depends>
+                        </custom_host>
+                        <custom_id translate="label">
+                            <label>Custom ID</label>
+                            <sort_order>70</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <environment>custom</environment>
+                            </depends>
+                        </custom_id>
+                        <custom_secret translate="label">
+                            <label>Custom Secret</label>
+                            <sort_order>80</sort_order>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <environment>custom</environment>
+                            </depends>
+                        </custom_secret>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                            </depends>
+                        </debug>
+                        <buzzi_connection translate="label">
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>buzzi_base/adminhtml_system_testConnection</frontend_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                            </depends>
+                        </buzzi_connection>
+                    </fields>
+                </api>
+            </groups>
+        </buzzi_base>
+    </sections>
+</config>

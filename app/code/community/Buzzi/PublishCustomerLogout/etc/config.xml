@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_PublishCustomerLogout>
+            <version>1.0.0</version>
+        </Buzzi_PublishCustomerLogout>
+    </modules>
+
+    <global>
+        <helpers>
+            <buzzi_publish_customer_logout>
+                <class>Buzzi_PublishCustomerLogout_Helper</class>
+            </buzzi_publish_customer_logout>
+        </helpers>
+        <models>
+            <buzzi_publish_customer_logout>
+                <class>Buzzi_PublishCustomerLogout_Model</class>
+            </buzzi_publish_customer_logout>
+        </models>
+
+        <buzzi>
+            <publish>
+                <customer_logout>
+                    <label>Customer Logout</label>
+                    <type>buzzi.ecommerce.user-logout</type>
+                </customer_logout>
+            </publish>
+        </buzzi>
+
+        <events>
+            <customer_logout>
+                <observers>
+                    <buzzi_publish_customer_logout>
+                        <class>buzzi_publish_customer_logout/observer_customerLogout</class>
+                        <method>execute</method>
+                    </buzzi_publish_customer_logout>
+                </observers>
+            </customer_logout>
+        </events>
+    </global>
+
+    <crontab>
+        <jobs>
+            <buzzi_publish_event_customer_logout_send>
+                <run>
+                    <model>buzzi_publish_customer_logout/cron_submit::process</model>
+                </run>
+            </buzzi_publish_event_customer_logout_send>
+        </jobs>
+    </crontab>
+
+    <default>
+        <buzzi_publish_events>
+            <customer_logout>
+                <is_cron>1</is_cron>
+                <global_schedule>1</global_schedule>
+            </customer_logout>
+        </buzzi_publish_events>
+    </default>
+</config>

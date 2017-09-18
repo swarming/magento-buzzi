@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_PublishCustomerLogin>
+            <version>1.0.0</version>
+        </Buzzi_PublishCustomerLogin>
+    </modules>
+
+    <global>
+        <helpers>
+            <buzzi_publish_customer_login>
+                <class>Buzzi_PublishCustomerLogin_Helper</class>
+            </buzzi_publish_customer_login>
+        </helpers>
+        <models>
+            <buzzi_publish_customer_login>
+                <class>Buzzi_PublishCustomerLogin_Model</class>
+            </buzzi_publish_customer_login>
+        </models>
+
+        <buzzi>
+            <publish>
+                <customer_login>
+                    <label>Customer Login</label>
+                    <type>buzzi.ecommerce.user-login</type>
+                </customer_login>
+            </publish>
+        </buzzi>
+
+        <events>
+            <customer_customer_authenticated>
+                <observers>
+                    <buzzi_publish_customer_login>
+                        <class>buzzi_publish_customer_login/observer_customerAuthenticated</class>
+                        <method>execute</method>
+                    </buzzi_publish_customer_login>
+                </observers>
+            </customer_customer_authenticated>
+        </events>
+    </global>
+
+    <crontab>
+        <jobs>
+            <buzzi_publish_event_customer_login_send>
+                <run>
+                    <model>buzzi_publish_customer_login/cron_submit::process</model>
+                </run>
+            </buzzi_publish_event_customer_login_send>
+        </jobs>
+    </crontab>
+
+    <default>
+        <buzzi_publish_events>
+            <customer_login>
+                <is_cron>1</is_cron>
+                <global_schedule>1</global_schedule>
+            </customer_login>
+        </buzzi_publish_events>
+    </default>
+</config>

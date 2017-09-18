@@ -1,0 +1,331 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <sections>
+        <buzzi_base>
+            <groups>
+                <publish translate="label">
+                    <label>Publish</label>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enabled_publish translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                            </depends>
+                        </enabled_publish>
+                        <events translate="label">
+                            <label>Events</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>buzzi_publish/config_system_source_eventType</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                            </depends>
+                        </events>
+                        <global_cron_settings translate="label">
+                            <label>Global Publish Schedule</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                            </depends>
+                        </global_cron_settings>
+                        <custom_global_schedule translate="label">
+                            <label>Custom Schedule</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                            </depends>
+                        </custom_global_schedule>
+                        <global_schedule translate="label comment">
+                            <label>Schedule</label>
+                            <comment>Enter if you know what you are doing. The value is not validated.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <custom_global_schedule>1</custom_global_schedule>
+                            </depends>
+                        </global_schedule>
+                        <global_start_time translate="label">
+                            <label>Start Time</label>
+                            <frontend_type>time</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <custom_global_schedule>0</custom_global_schedule>
+                            </depends>
+                        </global_start_time>
+                        <global_frequency translate="label">
+                            <label>Frequency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>buzzi_base/config_system_source_cronFrequency</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <custom_global_schedule>0</custom_global_schedule>
+                            </depends>
+                        </global_frequency>
+                        <resend_settings translate="label">
+                            <label>Resend</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                            </depends>
+                        </resend_settings>
+                        <resend_enable>
+                            <label>Resend Failed Submissions</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                            </depends>
+                        </resend_enable>
+                        <resend_max_time translate="label comment">
+                            <label>Maximum Resend Attempts</label>
+                            <comment>The maximum number of times failed submissions will attempt to be sent. Leave empty or enter 0 for unlimited attempts.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <resend_enable>1</resend_enable>
+                            </depends>
+                        </resend_max_time>
+                        <resend_cron_settings translate="label">
+                            <label>Resend Cron</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <resend_enable>1</resend_enable>
+                            </depends>
+                        </resend_cron_settings>
+                        <resend_custom_schedule translate="label">
+                            <label>Custom Schedule</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <resend_enable>1</resend_enable>
+                            </depends>
+                        </resend_custom_schedule>
+                        <resend_schedule translate="label comment">
+                            <label>Schedule</label>
+                            <comment>Enter if you know what you are doing. The value is not validated.</comment>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>buzzi_publish/config_system_backend_cron_resend</backend_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <resend_enable>1</resend_enable>
+                                <resend_custom_schedule>1</resend_custom_schedule>
+                            </depends>
+                        </resend_schedule>
+                        <resend_start_time translate="label">
+                            <label>Start Time</label>
+                            <frontend_type>time</frontend_type>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <resend_enable>1</resend_enable>
+                                <resend_custom_schedule>0</resend_custom_schedule>
+                            </depends>
+                        </resend_start_time>
+                        <resend_frequency translate="label">
+                            <label>Frequency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>buzzi_base/config_system_source_cronFrequency</source_model>
+                            <backend_model>buzzi_publish/config_system_backend_cron_resend</backend_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <resend_enable>1</resend_enable>
+                                <resend_custom_schedule>0</resend_custom_schedule>
+                            </depends>
+                        </resend_frequency>
+                        <cleaning_settings translate="label">
+                            <label>Queue Cleaning</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                            </depends>
+                        </cleaning_settings>
+                        <remove_immediately translate="label comment">
+                            <label>Remove Immediately</label>
+                            <comment>Successfully published submissions are deleted immediately.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                            </depends>
+                        </remove_immediately>
+                        <removing_delay translate="label">
+                            <label>Removing Delay (days)</label>
+                            <comment><![CDATA[<strong style="color:red">Important!</strong> Please note that the queue table might grow quickly (depending on the traffic and enabled events) and that every row could be big.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_publish>1</enabled_publish>
+                                <remove_immediately>0</remove_immediately>
+                            </depends>
+                        </removing_delay>
+                    </fields>
+                </publish>
+            </groups>
+        </buzzi_base>
+        <buzzi_publish_events translate="label">
+            <label>Publish Events</label>
+            <tab>buzzi</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>50</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+            </groups>
+        </buzzi_publish_events>
+    </sections>
+</config>

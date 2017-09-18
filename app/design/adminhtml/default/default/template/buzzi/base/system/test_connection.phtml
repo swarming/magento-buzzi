@@ -1,0 +1,56 @@
+<?php
+    /** @var Buzzi_Base_Block_Adminhtml_System_TestConnection $this */
+
+    echo $this->getButtonHtml();
+?>
+<span id="test-connection-result" class="message-test-connection" style="padding-left: 10px; position: absolute; font-weight: bold;"></span>
+
+<script type="text/javascript">
+    //<![CDATA[
+    function testConnection() {
+
+        var resultMessageBox = $('test-connection-result');
+
+        resultMessageBox
+            .removeClassName('success')
+            .removeClassName('fail')
+            .setStyle({'color': ''})
+            .update('');
+
+        var environment = $('buzzi_base_api_environment').value;
+        var host = environment === 'custom' ? $('buzzi_base_api_custom_host').value : '';
+        var authId = $('buzzi_base_api_' + environment + '_id').value;
+        var authSecret = $('buzzi_base_api_' + environment + '_secret').value;
+
+        var defaultMessage = '<?php echo $this->__('An error occurred while request.') ?>';
+
+        new Ajax.Request('<?php echo $this->getAjaxUrl() ?>', {
+            method: 'post',
+            parameters: {
+                environment: environment,
+                host: host,
+                auth_id: authId,
+                auth_secret: authSecret,
+                store: '<?php echo $this->getStoreCode() ?>',
+                website: '<?php echo $this->getWebsiteCode() ?>'
+            },
+            onSuccess: function(transport) {
+                var response = transport.responseJSON || {};
+                var status = response.status || 'fail';
+                var message = response.message || defaultMessage;
+
+                resultMessageBox
+                    .addClassName(status)
+                    .setStyle({'color': (response.status === 'success' ? 'green' : 'red')})
+                    .update(message);
+            },
+            onFailure: function() {
+                resultMessageBox
+                    .addClassName('fail')
+                    .setStyle({'color': 'red'})
+                    .update(defaultMessage);
+            }
+        });
+    }
+    //]]>
+</script>

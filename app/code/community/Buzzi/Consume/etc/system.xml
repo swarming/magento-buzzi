@@ -1,0 +1,324 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <sections>
+        <buzzi_base>
+            <groups>
+                <consume translate="label">
+                    <label>Consume</label>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enabled_consume translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                            </depends>
+                        </enabled_consume>
+                        <events translate="label">
+                            <label>Events</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>buzzi_consume/config_system_source_eventType</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </events>
+                        <global_cron_settings translate="label">
+                            <label>Global Handle Schedule</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </global_cron_settings>
+                        <custom_global_schedule translate="label">
+                            <label>Custom Schedule</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </custom_global_schedule>
+                        <global_schedule translate="label">
+                            <label>Schedule</label>
+                            <comment>Enter if you know what you are doing. The value is not validated.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                                <custom_global_schedule>1</custom_global_schedule>
+                            </depends>
+                        </global_schedule>
+                        <global_start_time translate="label">
+                            <label>Start Time</label>
+                            <frontend_type>time</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                                <custom_global_schedule>0</custom_global_schedule>
+                            </depends>
+                        </global_start_time>
+                        <global_frequency translate="label">
+                            <label>Frequency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>buzzi_base/config_system_source_cronFrequency</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                                <custom_global_schedule>0</custom_global_schedule>
+                            </depends>
+                        </global_frequency>
+                        <fetch_settings translate="label">
+                            <label>Fetch Deliveries</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </fetch_settings>
+                        <fetch_type translate="label">
+                            <label>Fetch</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>buzzi_consume/config_system_source_fetchType</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </fetch_type>
+                        <max_fetch translate="label comment">
+                            <label>Maximum Deliveries Per Once</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </max_fetch>
+                        <fetch_cron_settings translate="label">
+                            <label>Fetch Cron</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </fetch_cron_settings>
+                        <fetch_custom_schedule translate="label">
+                            <label>Custom Schedule</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </fetch_custom_schedule>
+                        <fetch_schedule translate="label">
+                            <label>Schedule</label>
+                            <comment>Enter if you know what you are doing. The value is not validated.</comment>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>buzzi_consume/config_system_backend_cron_fetch</backend_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                                <fetch_custom_schedule>1</fetch_custom_schedule>
+                            </depends>
+                        </fetch_schedule>
+                        <fetch_start_time translate="label">
+                            <label>Start Time</label>
+                            <frontend_type>time</frontend_type>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                                <fetch_custom_schedule>0</fetch_custom_schedule>
+                            </depends>
+                        </fetch_start_time>
+                        <fetch_frequency translate="label">
+                            <label>Frequency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>buzzi_base/config_system_source_cronFrequency</source_model>
+                            <backend_model>buzzi_consume/config_system_backend_cron_fetch</backend_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                                <fetch_custom_schedule>0</fetch_custom_schedule>
+                            </depends>
+                        </fetch_frequency>
+                        <cleaning_settings translate="label">
+                            <label>Queue Cleaning</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </cleaning_settings>
+                        <remove_immediately translate="label comment">
+                            <label>Remove Immediately</label>
+                            <comment>Successfully handled deliveries are deleted immediately.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                            </depends>
+                        </remove_immediately>
+                        <removing_delay translate="label">
+                            <label>Removing Delay (days)</label>
+                            <comment><![CDATA[<strong style="color:red">Important!</strong> Please note that the queue table might grow quickly and that every row could be big (depending on enabled events).]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>
+                                    <fieldset>general</fieldset>
+                                    <value>1</value>
+                                </enabled>
+                                <enabled_consume>1</enabled_consume>
+                                <remove_immediately>0</remove_immediately>
+                            </depends>
+                        </removing_delay>
+                    </fields>
+                </consume>
+            </groups>
+        </buzzi_base>
+        <buzzi_consume_events translate="label">
+            <label>Consume Events</label>
+            <tab>buzzi</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>30</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+            </groups>
+        </buzzi_consume_events>
+    </sections>
+</config>

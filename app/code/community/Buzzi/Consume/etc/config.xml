@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_Consume>
+            <version>1.0.0</version>
+        </Buzzi_Consume>
+    </modules>
+
+    <global>
+        <helpers>
+            <buzzi_consume>
+                <class>Buzzi_Consume_Helper</class>
+            </buzzi_consume>
+        </helpers>
+        <blocks>
+            <buzzi_consume>
+                <class>Buzzi_Consume_Block</class>
+            </buzzi_consume>
+        </blocks>
+        <models>
+            <buzzi_consume>
+                <class>Buzzi_Consume_Model</class>
+                <resourceModel>buzzi_consume_resource</resourceModel>
+            </buzzi_consume>
+            <buzzi_consume_resource>
+                <class>Buzzi_Consume_Model_Resource</class>
+                <entities>
+                    <queue>
+                        <table>buzzi_consume_queue</table>
+                    </queue>
+                </entities>
+            </buzzi_consume_resource>
+        </models>
+        <resources>
+            <buzzi_consume_setup>
+                <setup>
+                    <module>Buzzi_Consume</module>
+                </setup>
+            </buzzi_consume_setup>
+        </resources>
+    </global>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <buzzi_consume>
+                    <file>buzzi/consume.xml</file>
+                </buzzi_consume>
+            </updates>
+        </layout>
+        <events>
+            <adminhtml_init_system_config>
+                <observers>
+                    <buzzi_consume>
+                        <class>buzzi_consume/observer_generateConfig</class>
+                        <method>execute</method>
+                    </buzzi_consume>
+                </observers>
+            </adminhtml_init_system_config>
+            <admin_system_config_changed_section_buzzi_base>
+                <observers>
+                    <buzzi_consume>
+                        <class>buzzi_consume/observer_eventsCronSetup</class>
+                        <method>execute</method>
+                    </buzzi_consume>
+                </observers>
+            </admin_system_config_changed_section_buzzi_base>
+            <admin_system_config_changed_section_buzzi_consume_events>
+                <observers>
+                    <buzzi_consume>
+                        <class>buzzi_consume/observer_eventsCronSetup</class>
+                        <method>execute</method>
+                    </buzzi_consume>
+                </observers>
+            </admin_system_config_changed_section_buzzi_consume_events>
+        </events>
+    </adminhtml>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Buzzi_Consume before="Mage_Adminhtml">Buzzi_Consume_Adminhtml</Buzzi_Consume>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <crontab>
+        <jobs>
+            <buzzi_consume_fetch>
+                <run>
+                    <model>buzzi_consume/cron_fetch::process</model>
+                </run>
+            </buzzi_consume_fetch>
+            <buzzi_consume_cleaning>
+                <run>
+                    <model>buzzi_consume/cron_queueCleaning::process</model>
+                </run>
+                <schedule>
+                    <cron_expr>0 * * * *</cron_expr>
+                </schedule>
+            </buzzi_consume_cleaning>
+        </jobs>
+    </crontab>
+
+    <default>
+        <buzzi_base>
+            <consume>
+                <fetch_type>enabled</fetch_type>
+                <max_fetch>100</max_fetch>
+                <remove_immediately>1</remove_immediately>
+                <removing_delay>1</removing_delay>
+            </consume>
+        </buzzi_base>
+    </default>
+</config>

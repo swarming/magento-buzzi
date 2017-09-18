@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_PublishWishlistItem>
+            <version>1.0.0</version>
+        </Buzzi_PublishWishlistItem>
+    </modules>
+
+    <global>
+        <helpers>
+            <buzzi_publish_wishlist_item>
+                <class>Buzzi_PublishWishlistItem_Helper</class>
+            </buzzi_publish_wishlist_item>
+        </helpers>
+        <models>
+            <buzzi_publish_wishlist_item>
+                <class>Buzzi_PublishWishlistItem_Model</class>
+            </buzzi_publish_wishlist_item>
+        </models>
+
+        <buzzi>
+            <publish>
+                <wishlist_item>
+                    <label>Wishlist Item</label>
+                    <type>buzzi.ecommerce.wishlist-item</type>
+                </wishlist_item>
+            </publish>
+        </buzzi>
+
+        <events>
+            <wishlist_product_add_after>
+                <observers>
+                    <buzzi_publish_wishlist_item>
+                        <class>buzzi_publish_wishlist_item/observer_wishlistAddProduct</class>
+                        <method>execute</method>
+                    </buzzi_publish_wishlist_item>
+                </observers>
+            </wishlist_product_add_after>
+        </events>
+    </global>
+
+    <crontab>
+        <jobs>
+            <buzzi_publish_event_wishlist_item_send>
+                <run>
+                    <model>buzzi_publish_wishlist_item/cron_submit::process</model>
+                </run>
+            </buzzi_publish_event_wishlist_item_send>
+        </jobs>
+    </crontab>
+
+    <default>
+        <buzzi_publish_events>
+            <wishlist_item>
+                <is_cron>1</is_cron>
+                <global_schedule>1</global_schedule>
+            </wishlist_item>
+        </buzzi_publish_events>
+    </default>
+</config>

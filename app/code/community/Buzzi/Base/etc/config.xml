@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_Base>
+            <version>1.0.0</version>
+        </Buzzi_Base>
+    </modules>
+    <global>
+        <helpers>
+            <buzzi_base>
+                <class>Buzzi_Base_Helper</class>
+            </buzzi_base>
+        </helpers>
+        <blocks>
+            <buzzi_base>
+                <class>Buzzi_Base_Block</class>
+            </buzzi_base>
+        </blocks>
+        <models>
+            <buzzi_base>
+                <class>Buzzi_Base_Model</class>
+            </buzzi_base>
+        </models>
+        <events>
+            <resource_get_tablename>
+                <observers>
+                    <buzzi_base>
+                        <class>buzzi_base/observer_includeDependency</class>
+                        <method>execute</method>
+                    </buzzi_base>
+                </observers>
+            </resource_get_tablename>
+            <core_collection_abstract_load_before>
+                <observers>
+                    <buzzi_base>
+                        <class>buzzi_base/observer_includeDependency</class>
+                        <method>execute</method>
+                    </buzzi_base>
+                </observers>
+            </core_collection_abstract_load_before>
+            <add_spl_autoloader>
+                <observers>
+                    <buzzi_base>
+                        <class>buzzi_base/observer_includeDependency</class>
+                        <method>execute</method>
+                    </buzzi_base>
+                </observers>
+            </add_spl_autoloader>
+        </events>
+        <buzzi>
+            <consume />
+            <publish />
+        </buzzi>
+        <psr0_namespaces>
+            <Buzzi />
+            <GuzzleHttp />
+            <Monolog />
+            <Psr />
+        </psr0_namespaces>
+    </global>
+    <adminhtml>
+        <events>
+            <controller_action_predispatch_adminhtml_system_config_edit>
+                <observers>
+                    <buzzi_base>
+                        <class>buzzi_base/observer_checkCron</class>
+                        <method>execute</method>
+                    </buzzi_base>
+                </observers>
+            </controller_action_predispatch_adminhtml_system_config_edit>
+        </events>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Buzzi_Base before="Mage_Adminhtml">Buzzi_Base_Adminhtml</Buzzi_Base>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <buzzi_base>
+            <api>
+                <environment>sandbox</environment>
+                <production_secret backend_model="adminhtml/system_config_backend_encrypted"/>
+                <sandbox_secret backend_model="adminhtml/system_config_backend_encrypted"/>
+            </api>
+        </buzzi_base>
+    </default>
+</config>

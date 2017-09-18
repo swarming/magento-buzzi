@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_PublishCustomerRegistration>
+            <version>1.0.0</version>
+        </Buzzi_PublishCustomerRegistration>
+    </modules>
+
+    <global>
+        <helpers>
+            <buzzi_publish_customer_registration>
+                <class>Buzzi_PublishCustomerRegistration_Helper</class>
+            </buzzi_publish_customer_registration>
+        </helpers>
+        <models>
+            <buzzi_publish_customer_registration>
+                <class>Buzzi_PublishCustomerRegistration_Model</class>
+            </buzzi_publish_customer_registration>
+        </models>
+
+        <buzzi>
+            <publish>
+                <customer_registration>
+                    <label>Customer Registration</label>
+                    <type>buzzi.ecommerce.user-registration</type>
+                </customer_registration>
+            </publish>
+        </buzzi>
+
+        <events>
+            <customer_register_success>
+                <observers>
+                    <buzzi_publish_customer_registration>
+                        <class>buzzi_publish_customer_registration/observer_customerRegisterSuccess</class>
+                        <method>execute</method>
+                    </buzzi_publish_customer_registration>
+                </observers>
+            </customer_register_success>
+        </events>
+    </global>
+
+    <crontab>
+        <jobs>
+            <buzzi_publish_event_customer_registration_send>
+                <run>
+                    <model>buzzi_publish_customer_registration/cron_submit::process</model>
+                </run>
+            </buzzi_publish_event_customer_registration_send>
+        </jobs>
+    </crontab>
+
+    <default>
+        <buzzi_publish_events>
+            <customer_registration>
+                <is_cron>1</is_cron>
+                <global_schedule>1</global_schedule>
+            </customer_registration>
+        </buzzi_publish_events>
+    </default>
+</config>

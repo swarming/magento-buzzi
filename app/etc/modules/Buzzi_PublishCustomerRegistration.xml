@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Buzzi_PublishCustomerRegistration>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Buzzi_Publish />
+            </depends>
+        </Buzzi_PublishCustomerRegistration>
+    </modules>
+</config>

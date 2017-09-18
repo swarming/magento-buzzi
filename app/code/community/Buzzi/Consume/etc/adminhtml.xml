@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <menu>
+        <system>
+            <children>
+                <buzzi translate="title" module="buzzi_consume">
+                    <children>
+                        <consume translate="title" module="buzzi_consume">
+                            <title>Consume Queue</title>
+                            <action>adminhtml/buzzi_consume/index</action>
+                        </consume>
+                    </children>
+                </buzzi>
+            </children>
+        </system>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <buzzi>
+                                <children>
+                                    <consume translate="title">
+                                        <title>Buzzi Consume Queue</title>
+                                        <sort_order>10</sort_order>
+                                    </consume>
+                                </children>
+                            </buzzi>
+                            <config>
+                                <children>
+                                    <buzzi_consume_events translate="title">
+                                        <title>Buzzi Consume Events</title>
+                                        <sort_order>101</sort_order>
+                                    </buzzi_consume_events>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

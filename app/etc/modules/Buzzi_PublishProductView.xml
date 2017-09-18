@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Buzzi_PublishProductView>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Buzzi_Publish />
+            </depends>
+        </Buzzi_PublishProductView>
+    </modules>
+</config>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_buzzi_publish_index>
+        <reference name="content">
+            <block type="buzzi_publish/adminhtml_queue" name="buzzi.publish.queue" />
+        </reference>
+    </adminhtml_buzzi_publish_index>
+    <adminhtml_buzzi_publish_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="buzzi_publish/adminhtml_queue_grid" name="buzzi.publish.queue.grid"/>
+        </block>
+    </adminhtml_buzzi_publish_grid>
+</layout>

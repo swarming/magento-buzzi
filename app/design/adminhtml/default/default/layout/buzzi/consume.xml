@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_buzzi_consume_index>
+        <reference name="content">
+            <block type="buzzi_consume/adminhtml_queue" name="buzzi.consume.queue" />
+        </reference>
+    </adminhtml_buzzi_consume_index>
+    <adminhtml_buzzi_consume_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="buzzi_consume/adminhtml_queue_grid" name="buzzi.consume.queue.grid"/>
+        </block>
+    </adminhtml_buzzi_consume_grid>
+</layout>

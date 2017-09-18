@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <menu>
+        <system>
+            <children>
+                <buzzi translate="title" module="buzzi_base">
+                    <title>Buzzi</title>
+                    <sort_order>22</sort_order>
+                </buzzi>
+            </children>
+        </system>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <buzzi>
+                                <title>Buzzi</title>
+                                <sort_order>22</sort_order>
+                            </buzzi>
+                            <config>
+                                <children>
+                                    <buzzi_base translate="title">
+                                        <title>Buzzi Base</title>
+                                        <sort_order>100</sort_order>
+                                    </buzzi_base>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

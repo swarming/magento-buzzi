@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_PublishProductView>
+            <version>1.0.0</version>
+        </Buzzi_PublishProductView>
+    </modules>
+
+    <global>
+        <helpers>
+            <buzzi_publish_product_view>
+                <class>Buzzi_PublishProductView_Helper</class>
+            </buzzi_publish_product_view>
+        </helpers>
+        <models>
+            <buzzi_publish_product_view>
+                <class>Buzzi_PublishProductView_Model</class>
+            </buzzi_publish_product_view>
+        </models>
+
+        <buzzi>
+            <publish>
+                <product_view>
+                    <label>Product View</label>
+                    <type>buzzi.ecommerce.product-view</type>
+                </product_view>
+            </publish>
+        </buzzi>
+
+        <events>
+            <controller_action_postdispatch_catalog_product_view>
+                <observers>
+                    <buzzi_publish_product_view>
+                        <class>buzzi_publish_product_view/observer_productView</class>
+                        <method>execute</method>
+                    </buzzi_publish_product_view>
+                </observers>
+            </controller_action_postdispatch_catalog_product_view>
+        </events>
+    </global>
+
+    <crontab>
+        <jobs>
+            <buzzi_publish_event_product_view_send>
+                <run>
+                    <model>buzzi_publish_product_view/cron_submit::process</model>
+                </run>
+            </buzzi_publish_event_product_view_send>
+        </jobs>
+    </crontab>
+
+    <default>
+        <buzzi_publish_events>
+            <product_view>
+                <is_cron>1</is_cron>
+                <global_schedule>1</global_schedule>
+            </product_view>
+        </buzzi_publish_events>
+    </default>
+</config>

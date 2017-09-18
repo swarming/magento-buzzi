@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <sections>
+        <buzzi_publish_events>
+            <groups>
+                <cart_abandonment>
+                    <fields>
+                        <quote_last_action>
+                            <label>Quote Last Action Timing</label>
+                            <comment>The number of days, when a quote was updated last time.</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </quote_last_action>
+                    </fields>
+                </cart_abandonment>
+            </groups>
+        </buzzi_publish_events>
+    </sections>
+</config>

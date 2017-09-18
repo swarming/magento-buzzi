@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_PublishCartPurchase>
+            <version>1.0.0</version>
+        </Buzzi_PublishCartPurchase>
+    </modules>
+
+    <global>
+        <helpers>
+            <buzzi_publish_cart_purchase>
+                <class>Buzzi_PublishCartPurchase_Helper</class>
+            </buzzi_publish_cart_purchase>
+        </helpers>
+        <models>
+            <buzzi_publish_cart_purchase>
+                <class>Buzzi_PublishCartPurchase_Model</class>
+            </buzzi_publish_cart_purchase>
+        </models>
+
+        <buzzi>
+            <publish>
+                <cart_purchase>
+                    <label>Cart Purchase</label>
+                    <type>buzzi.ecommerce.cart-purchase</type>
+                </cart_purchase>
+            </publish>
+        </buzzi>
+
+        <events>
+            <sales_order_place_after>
+                <observers>
+                    <buzzi_publish_cart_purchase>
+                        <class>buzzi_publish_cart_purchase/observer_orderPlaceAfter</class>
+                        <method>execute</method>
+                    </buzzi_publish_cart_purchase>
+                </observers>
+            </sales_order_place_after>
+        </events>
+    </global>
+
+    <crontab>
+        <jobs>
+            <buzzi_publish_event_cart_purchase_send>
+                <run>
+                    <model>buzzi_publish_cart_purchase/cron_submit::process</model>
+                </run>
+            </buzzi_publish_event_cart_purchase_send>
+        </jobs>
+    </crontab>
+
+    <default>
+        <buzzi_publish_events>
+            <cart_purchase>
+                <is_cron>1</is_cron>
+                <global_schedule>1</global_schedule>
+            </cart_purchase>
+        </buzzi_publish_events>
+    </default>
+</config>
