@@ -47,8 +47,6 @@ class Buzzi_PublishCartAbandonment_Model_Manager
         /** @var \Buzzi_PublishCartAbandonment_Model_CartAbandonment $cartAbandonment */
         foreach ($cartAbandonmentCollection as $cartAbandonment) {
             $this->send($cartAbandonment);
-            $cartAbandonment->setStatus(Buzzi_PublishCartAbandonment_Model_CartAbandonment::STATUS_DONE);
-            $cartAbandonment->save();
         }
     }
 
@@ -64,8 +62,11 @@ class Buzzi_PublishCartAbandonment_Model_Manager
                 $this->_dataBuilder->getPayload($cartAbandonment),
                 $cartAbandonment->getStoreId()
             );
+            $cartAbandonment->setStatus(Buzzi_PublishCartAbandonment_Model_CartAbandonment::STATUS_DONE);
         } catch (\Exception $e) {
-            // Do nothing
+            $cartAbandonment->setStatus(Buzzi_PublishCartAbandonment_Model_CartAbandonment::STATUS_FAIL);
+            $cartAbandonment->setErrorMessage($e->getMessage());
         }
+        $cartAbandonment->save();
     }
 }

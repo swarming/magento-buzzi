@@ -12,11 +12,14 @@
  * @method $this setCustomerId($customerId)
  * @method string getStatus()
  * @method $this setStatus($status)
+ * @method $this setErrorMessage($errorMessage)
+ * @method $this getErrorMessage()
  */
 class Buzzi_PublishCartAbandonment_Model_CartAbandonment extends Mage_Core_Model_Abstract
 {
     const STATUS_PENDING = 'pending';
     const STATUS_DONE = 'done';
+    const STATUS_FAIL = 'fail';
 
     /**
      * @return void

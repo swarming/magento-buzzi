@@ -70,6 +70,9 @@ class Buzzi_PublishCartAbandonment_Model_DataBuilder
         $quote = $this->_createQuoteModel();
         $quote->setStore($customer->getStore());
         $quote->loadActive($abandonment->getQuoteId());
+        if (!$quote->getId()) {
+            Mage::throwException(sprintf('Quote with %s id is not found or is not acvite.', $quote->getId()));
+        }
 
         $payload = $this->_dataBuilderBase->initBaseData(self::EVENT_TYPE);
         $payload['customer'] = $this->_dataBuilderCustomer->getCustomerData($customer);

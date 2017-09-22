@@ -7,7 +7,7 @@
 <config>
     <modules>
         <Buzzi_PublishCartAbandonment>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
         </Buzzi_PublishCartAbandonment>
     </modules>
     <global>
