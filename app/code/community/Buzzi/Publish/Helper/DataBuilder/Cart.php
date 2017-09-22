@@ -73,11 +73,10 @@ class Buzzi_Publish_Helper_DataBuilder_Cart
     {
         $payload = [];
 
-        $product = $this->_createProductModel();
-
         $items = $quote->getAllVisibleItems();
         /** @var Mage_Sales_Model_Quote_Item $item */
         foreach ($items as $item) {
+            $product = $this->_createProductModel();
             $product->load($item->getProduct()->getId());
             $product->unsetData('url');
             $product->unsetData('request_path');
