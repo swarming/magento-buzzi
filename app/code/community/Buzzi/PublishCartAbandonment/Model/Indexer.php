@@ -57,9 +57,14 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
         /** @var \Mage_Sales_Model_Quote $quote */
         foreach ($quoteCollection as $quote) {
             $cartAbandonment->load($quote->getId(), 'quote_id');
+            if ($cartAbandonment->getId() && $cartAbandonment->getCreatedAt() > $quote->getUpdatedAt()) {
+                continue;
+            }
             $cartAbandonment->setStoreId($quote->getStoreId());
             $cartAbandonment->setQuoteId($quote->getId());
             $cartAbandonment->setCustomerId($quote->getCustomerId());
+            $cartAbandonment->setStatus(Buzzi_PublishCartAbandonment_Model_CartAbandonment::STATUS_PENDING);
+            $cartAbandonment->setCreatedAt($quoteCollection->getConnection()->formatDate($this->_getCurrentGmtTimestamp()));
             $cartAbandonment->save();
         }
     }

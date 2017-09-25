@@ -11,7 +11,12 @@ $installer->startSetup();
 $installer->getConnection()->addColumn(
     $this->getTable('buzzi_publish_cart_abandonment/cart_abandonment'),
     'error_message',
-    'text'
+    Varien_Db_Ddl_Table::TYPE_TEXT
+);
+$installer->getConnection()->addColumn(
+    $this->getTable('buzzi_publish_cart_abandonment/cart_abandonment'),
+    'created_at',
+    Varien_Db_Ddl_Table::TYPE_TIMESTAMP . ' NULL DEFAULT NULL'
 );
 
 $installer->endSetup();

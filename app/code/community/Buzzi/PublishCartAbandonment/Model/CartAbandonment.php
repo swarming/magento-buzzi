@@ -14,6 +14,8 @@
  * @method $this setStatus($status)
  * @method $this setErrorMessage($errorMessage)
  * @method $this getErrorMessage()
+ * @method string setCreatedAt($cratedAt)
+ * @method string getCreatedAt()
  */
 class Buzzi_PublishCartAbandonment_Model_CartAbandonment extends Mage_Core_Model_Abstract
 {
