@@ -60,7 +60,7 @@ $publishQueueTable = $installer->getConnection()
         Varien_Db_Ddl_Table::TYPE_VARCHAR,
         50,
         ['nullable' => true],
-        'Message id'
+        'Event id'
     )
     ->addColumn(
         'creating_time',
