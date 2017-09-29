@@ -36,6 +36,7 @@ class Buzzi_Publish_Helper_DataBuilder_Cart
         $shippingAddress = $quote->getShippingAddress();
         $totals = $quote->getTotals();
         $payload = [
+            'cart_id' => $quote->getId(),
             'order_id' => $order ? $order->getIncrementId() : '',
             'quantity' => $quote->getItemsQty(),
             'order_promo' => $quote->getCouponCode(),
