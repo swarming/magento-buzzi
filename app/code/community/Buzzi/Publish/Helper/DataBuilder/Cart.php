@@ -36,18 +36,18 @@ class Buzzi_Publish_Helper_DataBuilder_Cart
         $shippingAddress = $quote->getShippingAddress();
         $totals = $quote->getTotals();
         $payload = [
-            'cart_id' => $quote->getId(),
-            'order_id' => $order ? $order->getIncrementId() : '',
-            'quantity' => $quote->getItemsQty(),
-            'order_promo' => $quote->getCouponCode(),
-            'currency' => $quote->getQuoteCurrencyCode(),
-            'order_subtotal' => $this->_getTotalValue($totals, 'subtotal'),
-            'order_shipping' => $this->_getTotalValue($totals, 'shipping'),
-            'order_tax' => $this->_getTotalValue($totals, 'tax'),
-            'order_discount' => $this->_getTotalValue($totals, 'discount'),
-            'order_total' => $this->_getTotalValue($totals, 'grand_total'),
-            'shipping_method' => $shippingAddress->getId() ? $shippingAddress->getShippingMethod() : '',
-            'shipping_carrier' => $shippingAddress->getId() ? $shippingAddress->getShippingDescription() : ''
+            'cart_id' => (string)$quote->getId(),
+            'order_id' => $order ? (string)$order->getIncrementId() : '',
+            'quantity' => (int)$quote->getItemsQty(),
+            'order_promo' => $quote->getCouponCode() ? explode(',', (string)$quote->getCouponCode()) : [],
+            'currency' => (string)$quote->getQuoteCurrencyCode(),
+            'order_subtotal' => (string)$this->_getTotalValue($totals, 'subtotal'),
+            'order_shipping' => (string)$this->_getTotalValue($totals, 'shipping'),
+            'order_tax' => (string)$this->_getTotalValue($totals, 'tax'),
+            'order_discount' => (string)$this->_getTotalValue($totals, 'discount'),
+            'order_total' => (string)$this->_getTotalValue($totals, 'grand_total'),
+            'shipping_method' => (string)$shippingAddress->getShippingMethod(),
+            'shipping_carrier' => (string)$shippingAddress->getShippingDescription()
         ];
 
         $transport = new Varien_Object(['quote' => $quote, 'order' => $order, 'payload' => $payload]);
@@ -79,13 +79,11 @@ class Buzzi_Publish_Helper_DataBuilder_Cart
         foreach ($items as $item) {
             $product = $this->_createProductModel();
             $product->load($item->getProduct()->getId());
-            $product->unsetData('url');
-            $product->unsetData('request_path');
 
             $itemPayload = $this->_dataBuilderProduct->getProductData($product);
-            $itemPayload['base_price'] = $item->getPrice();
-            $itemPayload['product_sku'] = $item->getSku();
-            $itemPayload['quantity'] = $item->getQty();
+            $itemPayload['base_price'] = (string)$item->getPrice();
+            $itemPayload['product_sku'] = (string)$item->getSku();
+            $itemPayload['quantity'] = (int)$item->getQty();
 
             $transport = new Varien_Object(['quote_item' => $item, 'product' => $product, 'payload' => $itemPayload]);
             Mage::dispatchEvent('buzzi_publish_cart_item_build_after', ['transport' => $transport]);

@@ -12,11 +12,11 @@ class Buzzi_Publish_Helper_DataBuilder_Customer
     public function getCustomerData($customer)
     {
         $payload = [
-            'customer_id' => $customer->getId(),
-            'email' => $customer->getEmail(),
-            'first_name' => $customer->getFirstname(),
-            'last_name' => $customer->getLastname(),
-            'customer_since' => $customer->getCreatedAt()
+            'customer_id' => (string)$customer->getId(),
+            'email' => (string)$customer->getEmail(),
+            'first_name' => (string)$customer->getFirstname(),
+            'last_name' => (string)$customer->getLastname(),
+            'customer_since' => (string)$this->convertDateTime($customer->getCreatedAt())
         ];
 
         $transport = new Varien_Object(['customer' => $customer, 'payload' => $payload]);
@@ -32,16 +32,25 @@ class Buzzi_Publish_Helper_DataBuilder_Customer
     public function getCustomerDataFromOrder($order)
     {
         $payload = [
-            'customer_id' => null,
-            'email' => $order->getCustomerEmail(),
-            'first_name' => $order->getCustomerFirstname(),
-            'last_name' => $order->getCustomerLastname(),
-            'customer_since' => $order->getCreatedAt(),
+            'email' => (string)$order->getCustomerEmail(),
+            'first_name' => (string)$order->getCustomerFirstname(),
+            'last_name' => (string)$order->getCustomerLastname()
         ];
 
         $transport = new Varien_Object(['order' => $order, 'payload' => $payload]);
         Mage::dispatchEvent('buzzi_publish_guest_order_customer_build_after', ['transport' => $transport]);
 
         return (array)$transport->getData('payload');
+    }
+
+    /**
+     * @param string $dateTime
+     * @return string
+     */
+    protected function convertDateTime($dateTime)
+    {
+        /** @var Mage_Core_Model_Date $date */
+        $date = Mage::getModel('core/date');
+        return $date->gmtDate(\DateTime::ATOM, $date->timestamp($dateTime));
     }
 }

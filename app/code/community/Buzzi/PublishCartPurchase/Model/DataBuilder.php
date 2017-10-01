@@ -58,9 +58,17 @@ class Buzzi_PublishCartPurchase_Model_DataBuilder
         $payload = $this->_dataBuilderBase->initBaseData(self::EVENT_TYPE);
         $payload['customer'] = $this->_getCustomerData($order);
         $payload['cart'] = $this->_dataBuilderCart->getCartData($quote, $order);
-        $payload['cart']['billing_address'] = $this->_dataBuilderAddress->getBillingAddressesFromOrder($order);
-        $payload['cart']['shipping_address'] = $this->_dataBuilderAddress->getShippingAddressesFromOrder($order);
         $payload['cart']['cart_items'] = $this->_dataBuilderCart->getCartItemsData($quote);
+
+        $billingAddress = $this->_dataBuilderAddress->getBillingAddressesFromOrder($order);
+        if ($billingAddress) {
+            $payload['cart']['billing_address'] = $billingAddress;
+        }
+
+        $shippingAddress = $this->_dataBuilderAddress->getShippingAddressesFromOrder($order);
+        if ($shippingAddress) {
+            $payload['cart']['shipping_address'] = $shippingAddress;
+        }
 
         $transport = new Varien_Object(['order' => $order, 'payload' => $payload]);
         Mage::dispatchEvent('buzzi_publish_cart_purchase_payload', ['transport' => $transport]);

@@ -12,14 +12,14 @@ class Buzzi_Publish_Helper_DataBuilder_Address
     public function getAddressData($address)
     {
         $payload = [
-            'company' => $address->getCompany(),
-            'name' => $address->getName(),
+            'company' => (string)$address->getCompany(),
+            'name' => (string)$address->getName(),
             'street' => implode(' ', (array)$address->getStreet()),
-            'state' => $address->getRegionCode(),
-            'city' => $address->getCity(),
-            'zip' => $address->getPostcode(),
-            'country' => $address->getCountryId(),
-            'phone' => $address->getTelephone(),
+            'state' => (string)$address->getRegionCode(),
+            'city' => (string)$address->getCity(),
+            'zip' => (string)$address->getPostcode(),
+            'country' => (string)$address->getCountryId(),
+            'phone' => (string)$address->getTelephone(),
         ];
 
         $transport = new Varien_Object(['address' => $address, 'payload' => $payload]);
@@ -30,11 +30,11 @@ class Buzzi_Publish_Helper_DataBuilder_Address
 
     /**
      * @param \Mage_Customer_Model_Address|\Mage_Sales_Model_Order_Address|\Mage_Sales_Model_Quote_Address $address
-     * @return array|string
+     * @return array|null
      */
     protected function _validateAndRenderAddress($address)
     {
-        return $address && $address->getId() ? $this->getAddressData($address) : '';
+        return $address && $address->getFirstname() ? $this->getAddressData($address) : null;
     }
 
     /**

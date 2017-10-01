@@ -20,13 +20,13 @@ class Buzzi_Publish_Helper_DataBuilder_Product
     public function getProductData($product)
     {
         $payload = [
-            'base_price' => $product->getPrice(),
-            'category' => $this->_getProductCategories($product),
-            'product_sku' => $product->getSku(),
-            'product_name' => $product->getName(),
-            'product_description' => $product->getShortDescription(),
-            'product_image_url' => $product->getImageUrl(),
-            'product_url' => $product->getProductUrl(),
+            'base_price' => (string)$product->getPrice(),
+            'category' => (array)$this->_getProductCategories($product),
+            'product_sku' => (string)$product->getSku(),
+            'product_name' => (string)$product->getName(),
+            'product_description' => (string)$product->getShortDescription(),
+            'product_image_url' => (string)$product->getImageUrl(),
+            'product_url' => (string)$product->getProductUrl(),
         ];
 
         $transport = new Varien_Object(['product' => $product, 'payload' => $payload]);
@@ -37,7 +37,7 @@ class Buzzi_Publish_Helper_DataBuilder_Product
 
     /**
      * @param \Mage_Catalog_Model_Product $product
-     * @return string
+     * @return string[]
      */
     protected function _getProductCategories($product)
     {
@@ -46,6 +46,6 @@ class Buzzi_Publish_Helper_DataBuilder_Product
         $categoryCollection->addIdFilter($categoryIds);
         $categoryCollection->addNameToResult();
         $categoryNames = $categoryCollection->getColumnValues('name');
-        return implode(',', $categoryNames);
+        return $categoryNames;
     }
 }

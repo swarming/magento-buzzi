@@ -77,9 +77,17 @@ class Buzzi_PublishCartAbandonment_Model_DataBuilder
         $payload = $this->_dataBuilderBase->initBaseData(self::EVENT_TYPE);
         $payload['customer'] = $this->_dataBuilderCustomer->getCustomerData($customer);
         $payload['cart'] = $this->_dataBuilderCart->getCartData($quote);
-        $payload['cart']['billing_address'] = $this->_dataBuilderAddress->getBillingAddresses($customer);
-        $payload['cart']['shipping_address'] = $this->_dataBuilderAddress->getShippingAddresses($customer);
         $payload['cart']['cart_items'] = $this->_dataBuilderCart->getCartItemsData($quote);
+
+        $billingAddress = $this->_dataBuilderAddress->getBillingAddresses($customer);
+        if ($billingAddress) {
+            $payload['cart']['billing_address'] = $billingAddress;
+        }
+
+        $shippingAddress = $this->_dataBuilderAddress->getShippingAddresses($customer);
+        if ($shippingAddress) {
+            $payload['cart']['shipping_address'] = $shippingAddress;
+        }
 
         $transport = new Varien_Object(['abandonment' => $abandonment, 'payload' => $payload]);
         Mage::dispatchEvent('buzzi_publish_cart_abandonment_payload', ['transport' => $transport]);
