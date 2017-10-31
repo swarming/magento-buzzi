@@ -92,7 +92,7 @@ class Buzzi_Consume_Model_Queue
         $fetchEnabled = $this->_configGeneral->getFetchType($storeId) == Buzzi_Consume_Model_Config_System_Source_FetchType::ENABLED;
 
         return $fetchAll
-            || ($fetchRegistered && in_array($fetchRegistered, $this->_configEvents->getAllTypes()))
+            || ($fetchRegistered && in_array($eventType, $this->_configEvents->getAllTypes()))
             || ($fetchEnabled && $this->_configEvents->isEventEnabled($eventType, $storeId));
     }
 
