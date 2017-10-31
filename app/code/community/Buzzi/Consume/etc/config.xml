@@ -7,7 +7,7 @@
 <config>
     <modules>
         <Buzzi_Consume>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </Buzzi_Consume>
     </modules>
 
