@@ -164,7 +164,7 @@ class Buzzi_Publish_Model_Queue
     {
         $submissions = $this->_createSubmissionCollection();
         $submissions->filterNotDone();
-        if ($submissions) {
+        if ($submissionIds) {
             $submissions->filterSubmissionIds($submissionIds);
         }
 
