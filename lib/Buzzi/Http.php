@@ -208,6 +208,7 @@ class Http
         $variables = [];
 
         foreach ($response->getHeaders() as $name => $values) {
+            $name = strtolower($name);
             if (strpos($name, self::BUZZI_HEADER_PREFIX) === false) {
                 continue;
             }
