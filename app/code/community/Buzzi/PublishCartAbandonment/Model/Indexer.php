@@ -45,12 +45,17 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
     /**
      * @param int $quoteLastActionDays
      * @param int|null $storeId
+     * @param int|null $quotesLimit
      * @return void
      */
-    public function reindex($quoteLastActionDays = 1, $storeId = null)
+    public function reindex($quoteLastActionDays = 1, $storeId = null, $quotesLimit = null)
     {
         $quoteCollection = $this->_createReportQuoteCollection();
         $this->prepareFilters($quoteCollection, $quoteLastActionDays, $storeId);
+
+        if ($quotesLimit && $quotesLimit > 0) {
+            $this->processQuoteLimit($quoteCollection, $quotesLimit);
+        }
 
         $cartAbandonment = $this->_createCartAbandonment();
 
@@ -120,5 +125,15 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
             )
             ->group('main_table.customer_id')
             ->having('last_action <= ?', $quoteCollection->getConnection()->formatDate($lastActionTime));
+    }
+
+    /**
+     * @param \Mage_Sales_Model_Resource_Quote_Collection $quoteCollection
+     * @param int $quotesLimit
+     * @return void
+     */
+    protected function processQuoteLimit($quoteCollection, $quotesLimit)
+    {
+        $quoteCollection->getSelect()->limit($quotesLimit);
     }
 }

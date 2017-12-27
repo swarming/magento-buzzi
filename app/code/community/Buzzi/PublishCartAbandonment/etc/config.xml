@@ -76,6 +76,7 @@
         <buzzi_publish_events>
             <cart_abandonment>
                 <quote_last_action>1</quote_last_action>
+                <quotes_limit>1000</quotes_limit>
                 <global_schedule>1</global_schedule>
             </cart_abandonment>
         </buzzi_publish_events>

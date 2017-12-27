@@ -18,6 +18,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </quote_last_action>
+                        <quotes_limit>
+                            <label>Quotes Limit</label>
+                            <comment>Limit of Abandoned Carts sent per cron call. Leave 0 or empty for unlimited.</comment>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </quotes_limit>
                     </fields>
                 </cart_abandonment>
             </groups>
