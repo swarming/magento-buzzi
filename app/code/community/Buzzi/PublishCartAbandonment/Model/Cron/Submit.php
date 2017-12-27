@@ -41,12 +41,17 @@ class Buzzi_PublishCartAbandonment_Model_Cron_Submit
      */
     public function process()
     {
+        $originStore = $this->_app->getStore();
         $stores = $this->_app->getStores();
 
-        foreach (array_keys($stores) as $storeId) {
+        /** @var Mage_Core_Model_Store $store */
+        foreach ($stores as $store) {
+            $storeId = $store->getId();
             if (!$this->_configEvents->isEventEnabled(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, $storeId)) {
                 continue;
             }
+
+            $this->_app->setCurrentStore($store->getCode());
 
             $this->_cartAbandonmentIndexer->reindex(
                 $this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'quote_last_action', $storeId),
@@ -55,5 +60,7 @@ class Buzzi_PublishCartAbandonment_Model_Cron_Submit
 
             $this->_cartAbandonmentManager->sendPending($storeId);
         }
+
+        $this->_app->setCurrentStore($originStore->getCode());
     }
 }
