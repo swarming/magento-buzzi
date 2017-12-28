@@ -6,6 +6,14 @@
 class Buzzi_Publish_Helper_DataBuilder_Product
 {
     /**
+     * @return \Mage_Catalog_Helper_Image
+     */
+    protected function _getImageHelper()
+    {
+        return Mage::helper('catalog/image');
+    }
+
+    /**
      * @return \Mage_Catalog_Model_Resource_Category_Collection|\Mage_Catalog_Model_Resource_Category_Flat_Collection
      */
     protected function _createCategoryCollectionModel()
@@ -25,7 +33,7 @@ class Buzzi_Publish_Helper_DataBuilder_Product
             'product_sku' => (string)$product->getSku(),
             'product_name' => (string)$product->getName(),
             'product_description' => (string)$product->getShortDescription(),
-            'product_image_url' => (string)$product->getImageUrl(),
+            'product_image_url' => (string)$this->_getImageHelper()->init($product, 'image'),
             'product_url' => (string)$product->getProductUrl(),
         ];
 
