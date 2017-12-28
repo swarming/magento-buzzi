@@ -38,7 +38,7 @@ class Buzzi_PublishCustomerLogout_Model_Observer_CustomerLogout
     {
         /** @var \Mage_Customer_Model_Customer $customer */
         $customer = $observer->getData('customer');
-        $storeId = $customer->getStoreId();
+        $storeId = Mage::app()->getStore()->getId();
 
         if (!$this->_configEvents->isEventEnabled(Buzzi_PublishCustomerLogout_Model_DataBuilder::EVENT_TYPE, $storeId)) {
             return;

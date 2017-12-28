@@ -7,7 +7,7 @@
 <config>
     <modules>
         <Buzzi_PublishCustomerLogin>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </Buzzi_PublishCustomerLogin>
     </modules>
 
@@ -31,7 +31,9 @@
                 </customer_login>
             </publish>
         </buzzi>
+    </global>
 
+    <frontend>
         <events>
             <customer_customer_authenticated>
                 <observers>
@@ -42,7 +44,7 @@
                 </observers>
             </customer_customer_authenticated>
         </events>
-    </global>
+    </frontend>
 
     <crontab>
         <jobs>
