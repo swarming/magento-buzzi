@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <sections>
+        <buzzi_publish_events>
+            <groups>
+                <customer_registration>
+                    <fields>
+                        <track_admin_created>
+                            <label>Track admin created customers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </track_admin_created>
+                    </fields>
+                </customer_registration>
+            </groups>
+        </buzzi_publish_events>
+    </sections>
+</config>
