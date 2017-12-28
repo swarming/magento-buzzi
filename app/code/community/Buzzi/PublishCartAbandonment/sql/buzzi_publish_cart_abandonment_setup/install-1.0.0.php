@@ -63,15 +63,5 @@ $installer->getConnection()->addIndex(
     $installer->getIdxName($installer->getTable('sales/quote'), ['updated_at']),
     ['updated_at']
 );
-$installer->getConnection()->addIndex(
-    $installer->getTable('log/customer'),
-    $installer->getIdxName($installer->getTable('log/customer'), ['customer_id']),
-    ['customer_id']
-);
-$installer->getConnection()->addIndex(
-    $installer->getTable('log/visitor'),
-    $installer->getIdxName($installer->getTable('log/visitor'), ['last_visit_at']),
-    ['last_visit_at']
-);
 
 $installer->endSetup();
