@@ -66,6 +66,7 @@ class Buzzi_PublishCartAbandonment_Model_Manager
         } catch (\Exception $e) {
             $cartAbandonment->setStatus(Buzzi_PublishCartAbandonment_Model_CartAbandonment::STATUS_FAIL);
             $cartAbandonment->setErrorMessage($e->getMessage());
+            Mage::logException($e);
         }
         $cartAbandonment->save();
     }
