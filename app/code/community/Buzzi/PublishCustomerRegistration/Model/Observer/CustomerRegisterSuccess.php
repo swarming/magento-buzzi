@@ -38,9 +38,12 @@ class Buzzi_PublishCustomerRegistration_Model_Observer_CustomerRegisterSuccess
     {
         /** @var \Mage_Customer_Model_Customer $customer */
         $customer = $observer->getData('customer');
-        $storeId = $customer->getStoreId();
+        $currentStore = Mage::app()->getStore();
+        $storeId = $currentStore->isAdmin() ? $customer->getStoreId() : $currentStore->getId();
 
-        if (!$this->_configEvents->isEventEnabled(Buzzi_PublishCustomerRegistration_Model_DataBuilder::EVENT_TYPE, $storeId)) {
+        if (!$this->_configEvents->isEventEnabled(Buzzi_PublishCustomerRegistration_Model_DataBuilder::EVENT_TYPE, $storeId)
+            || ($currentStore->isAdmin() && !$this->_configEvents->getValue(Buzzi_PublishCustomerRegistration_Model_DataBuilder::EVENT_TYPE, 'track_admin_created'))
+        ) {
             return;
         }
 
