@@ -7,7 +7,7 @@
 <config>
     <modules>
         <Buzzi_Base>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
         </Buzzi_Base>
     </modules>
     <global>
@@ -88,6 +88,9 @@
     </admin>
     <default>
         <buzzi_base>
+            <general>
+                <files_location>buzzi</files_location>
+            </general>
             <api>
                 <environment>sandbox</environment>
                 <production_secret backend_model="adminhtml/system_config_backend_encrypted"/>

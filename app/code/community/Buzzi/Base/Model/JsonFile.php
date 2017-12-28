@@ -25,7 +25,7 @@ class Buzzi_Base_Model_JsonFile
      */
     protected function _iniBaseDir($subFolder = '')
     {
-        $baseDir = Mage::getBaseDir('var') . DS . 'buzzi' . DS;
+        $baseDir = Mage::getBaseDir('var') . DS . Mage::getStoreConfig('buzzi_base/general/files_location') . DS;
         return $subFolder ? $baseDir . $subFolder . DS : $baseDir;
     }
 
