@@ -12,7 +12,7 @@
                     <fields>
                         <track_online_customers>
                             <label>Track customers activity</label>
-                            <comment>Cart is abandonment only if customer is not online any more. Depends on System -> Log -> Enable Log = Yes.</comment>
+                            <comment>Cart abandonment only if customer is no longer online. Depends on System -> Log -> Enable Log = Yes.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>
@@ -21,7 +21,7 @@
                         </track_online_customers>
                         <quote_last_action>
                             <label>Quote Last Action Timing</label>
-                            <comment>The number of days, when a quote was updated last time.</comment>
+                            <comment>Fetch quotes where last activity is less than the above value in days.</comment>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -29,7 +29,7 @@
                         </quote_last_action>
                         <quotes_limit>
                             <label>Quotes Limit</label>
-                            <comment>Limit of Abandoned Carts sent per cron call. Leave 0 or empty for unlimited.</comment>
+                            <comment>Limit the number of abandoned carts sent per cron action. Leave 0 or empty for unlimited.</comment>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
