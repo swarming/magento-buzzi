@@ -75,6 +75,7 @@
     <default>
         <buzzi_publish_events>
             <cart_abandonment>
+                <track_online_customers>1</track_online_customers>
                 <quote_last_action>1</quote_last_action>
                 <quotes_limit>1000</quotes_limit>
                 <global_schedule>1</global_schedule>

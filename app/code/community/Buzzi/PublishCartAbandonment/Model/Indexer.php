@@ -6,6 +6,11 @@
 class Buzzi_PublishCartAbandonment_Model_Indexer
 {
     /**
+     * @var \Buzzi_Publish_Model_Config_Events
+     */
+    protected $_configEvents;
+
+    /**
      * @var \Mage_Log_Model_Visitor_Online
      */
     protected $_visitorOnline;
@@ -15,6 +20,7 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
      */
     public function __construct()
     {
+        $this->_configEvents = Mage::getSingleton('buzzi_publish/config_events');
         $this->_visitorOnline = Mage::getModel('log/visitor_online');
     }
 
@@ -43,17 +49,16 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
     }
 
     /**
-     * @param int $quoteLastActionDays
      * @param int|null $storeId
-     * @param int|null $quotesLimit
      * @return void
      */
-    public function reindex($quoteLastActionDays = 1, $storeId = null, $quotesLimit = null)
+    public function reindex($storeId)
     {
         $quoteCollection = $this->_createReportQuoteCollection();
-        $this->prepareFilters($quoteCollection, $quoteLastActionDays, $storeId);
+        $this->prepareFilters($quoteCollection, $storeId);
 
-        if ($quotesLimit && $quotesLimit > 0) {
+        $quotesLimit = (int)$this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'quotes_limit', $storeId);
+        if ($quotesLimit > 0) {
             $this->processQuoteLimit($quoteCollection, $quotesLimit);
         }
 
@@ -76,32 +81,65 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
 
     /**
      * @param \Mage_Sales_Model_Resource_Quote_Collection $quoteCollection
-     * @param int $quoteLastActionDays
      * @param int|null $storeId
      * @return void
      */
-    protected function prepareFilters($quoteCollection, $quoteLastActionDays, $storeId = null)
+    protected function prepareFilters($quoteCollection, $storeId = null)
     {
+        $quoteLastActionDays = (int)$this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'quote_last_action', $storeId);
+        $trackOnlineCustomers = (bool)$this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'track_online_customers', $storeId);
+
+        $quoteLastActionTime = $quoteLastActionDays > 0
+            ? $this->_getCurrentGmtTimestamp() - 60 * 60 * 24 * $quoteLastActionDays
+            : 0;
+
+        $customerLastActionTime = !$trackOnlineCustomers
+            ? $this->_getCurrentGmtTimestamp() - 60 * $this->_visitorOnline->getOnlineInterval()
+            : 0;
+
         $quoteCollection->addFieldToFilter('main_table.items_count', ['neq' => '0']);
         $quoteCollection->addFieldToFilter('main_table.is_active', '1');
-
-        $quoteLastActionDays = (int)$quoteLastActionDays;
-        if ($quoteLastActionDays > 0) {
-            $quoteLastActionTime = $this->_getCurrentGmtTimestamp() - 60 * 60 * 24 * $quoteLastActionDays;
-            $quoteCollection->addFieldToFilter(
-                ['main_table.updated_at', 'main_table.updated_at'],
-                [
-                    ['gteq' => $quoteCollection->getConnection()->formatDate($quoteLastActionTime)],
-                    ['eq' => '0000-00-00 00:00:00']
-                ]
-            );
-        }
+        $this->_filterQuoteUpdateTime($quoteCollection, $quoteLastActionTime, $customerLastActionTime);
 
         if ($storeId) {
             $quoteCollection->addFieldToFilter('main_table.store_id', ['eq' => $storeId]);
         }
 
-        $this->filterOnlineCustomers($quoteCollection);
+        if ($trackOnlineCustomers) {
+            $this->filterOnlineCustomers($quoteCollection);
+        } else {
+            $quoteCollection->addFieldToFilter('main_table.customer_id', ['notnull' => null]);
+            $quoteCollection->addFieldToFilter('main_table.customer_id', ['gt' => 0]);
+        }
+    }
+
+    /**
+     * @param \Mage_Sales_Model_Resource_Quote_Collection $quoteCollection
+     * @param int $lastActionTimeStart
+     * @param int $lastActionTimeEnd
+     * @return void
+     */
+    protected function _filterQuoteUpdateTime($quoteCollection, $lastActionTimeStart, $lastActionTimeEnd)
+    {
+        if ($lastActionTimeStart) {
+            $startField = 'main_table.updated_at';
+            $startCondition = ['gteq' => $quoteCollection->getConnection()->formatDate($lastActionTimeStart)];
+            if (!$lastActionTimeEnd) {
+                $startField = [$startField, 'main_table.updated_at'];
+                $startCondition = [$startCondition, ['eq' => '0000-00-00 00:00:00']];
+            }
+            $quoteCollection->addFieldToFilter($startField, $startCondition);
+        }
+
+        if ($lastActionTimeEnd) {
+            $quoteCollection->addFieldToFilter(
+                'main_table.updated_at',
+                ['lteq' => $quoteCollection->getConnection()->formatDate($lastActionTimeEnd)]
+            );
+            if (!$lastActionTimeStart) {
+                $quoteCollection->addFieldToFilter('main_table.updated_at', ['neq' => '0000-00-00 00:00:00']);
+            }
+        }
     }
 
     /**

@@ -53,12 +53,7 @@ class Buzzi_PublishCartAbandonment_Model_Cron_Submit
 
             $this->_app->setCurrentStore($store->getCode());
 
-            $this->_cartAbandonmentIndexer->reindex(
-                $this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'quote_last_action', $storeId),
-                $storeId,
-                $this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'quotes_limit', $storeId)
-            );
-
+            $this->_cartAbandonmentIndexer->reindex($storeId);
             $this->_cartAbandonmentManager->sendPending($storeId);
         }
 
