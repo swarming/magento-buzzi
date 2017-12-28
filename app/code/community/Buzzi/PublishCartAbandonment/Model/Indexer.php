@@ -55,11 +55,11 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
     public function reindex($storeId)
     {
         $quoteCollection = $this->_createReportQuoteCollection();
-        $this->prepareFilters($quoteCollection, $storeId);
+        $this->_prepareFilters($quoteCollection, $storeId);
 
         $quotesLimit = (int)$this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'quotes_limit', $storeId);
         if ($quotesLimit > 0) {
-            $this->processQuoteLimit($quoteCollection, $quotesLimit);
+            $this->_processQuoteLimit($quoteCollection, $quotesLimit);
         }
 
         $cartAbandonment = $this->_createCartAbandonment();
@@ -84,7 +84,7 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
      * @param int|null $storeId
      * @return void
      */
-    protected function prepareFilters($quoteCollection, $storeId = null)
+    protected function _prepareFilters($quoteCollection, $storeId = null)
     {
         $quoteLastActionDays = (int)$this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'quote_last_action', $storeId);
         $trackOnlineCustomers = (bool)$this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'track_online_customers', $storeId);
@@ -105,10 +105,11 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
             $quoteCollection->addFieldToFilter('main_table.store_id', ['eq' => $storeId]);
         }
 
+        $quoteCollection->addFieldToFilter('main_table.customer_id', ['notnull' => null]);
         if ($trackOnlineCustomers) {
-            $this->filterOnlineCustomers($quoteCollection);
+            $this->_visitorOnline->prepare();
+            $this->_filterOnlineCustomers($quoteCollection);
         } else {
-            $quoteCollection->addFieldToFilter('main_table.customer_id', ['notnull' => null]);
             $quoteCollection->addFieldToFilter('main_table.customer_id', ['gt' => 0]);
         }
     }
@@ -146,23 +147,18 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
      * @param \Mage_Sales_Model_Resource_Quote_Collection $quoteCollection
      * @return void
      */
-    protected function filterOnlineCustomers($quoteCollection)
+    protected function _filterOnlineCustomers($quoteCollection)
     {
-        $lastActionTime = $this->_getCurrentGmtTimestamp() - 60 * $this->_visitorOnline->getOnlineInterval();
+        $onlineCustomerSelect = $quoteCollection->getConnection()->select();
+        $onlineCustomerSelect->from($quoteCollection->getTable('log/visitor_online'), ['customer_id']);
+        $onlineCustomerSelect->where('visitor_type = ?', Mage_Log_Model_Visitor::VISITOR_TYPE_CUSTOMER);
+        $onlineCustomerQuery = $quoteCollection->getConnection()->query($onlineCustomerSelect);
 
-        $quoteCollection->getSelect()
-            ->joinInner(
-                ['customer' => $quoteCollection->getTable('log/customer')],
-                'customer.customer_id = main_table.customer_id',
-                null
-            )
-            ->joinInner(
-                ['visitor' => $quoteCollection->getTable('log/visitor')],
-                'customer.visitor_id = visitor.visitor_id',
-                ['last_action' => 'max(visitor.last_visit_at)']
-            )
-            ->group('main_table.customer_id')
-            ->having('last_action <= ?', $quoteCollection->getConnection()->formatDate($lastActionTime));
+        $onlineCustomerIds = $onlineCustomerQuery->fetchAll(Zend_Db::FETCH_COLUMN);
+
+        if (!empty($onlineCustomerIds)) {
+            $quoteCollection->addFieldToFilter('main_table.customer_id', ['nin' => $onlineCustomerIds]);
+        }
     }
 
     /**
@@ -170,7 +166,7 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
      * @param int $quotesLimit
      * @return void
      */
-    protected function processQuoteLimit($quoteCollection, $quotesLimit)
+    protected function _processQuoteLimit($quoteCollection, $quotesLimit)
     {
         $quoteCollection->getSelect()->limit($quotesLimit);
     }
