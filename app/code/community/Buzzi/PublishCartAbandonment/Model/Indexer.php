@@ -16,12 +16,18 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
     protected $_visitorOnline;
 
     /**
+     * @var \Buzzi_PublishCartAbandonment_Model_Resource_CartAbandonment
+     */
+    protected $_cartAbandonmentResource;
+
+    /**
      * Initialize dependencies
      */
     public function __construct()
     {
         $this->_configEvents = Mage::getSingleton('buzzi_publish/config_events');
         $this->_visitorOnline = Mage::getModel('log/visitor_online');
+        $this->_cartAbandonmentResource = Mage::getResourceModel('buzzi_publish_cart_abandonment/cartAbandonment');
     }
 
     /**
@@ -55,6 +61,7 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
     public function reindex($storeId)
     {
         $quoteCollection = $this->_createReportQuoteCollection();
+        $this->_prepareFingerprint($quoteCollection);
         $this->_prepareFilters($quoteCollection, $storeId);
 
         $quotesLimit = (int)$this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'quotes_limit', $storeId);
@@ -62,21 +69,37 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
             $this->_processQuoteLimit($quoteCollection, $quotesLimit);
         }
 
+        $isResubmissionAllowed = (bool)$this->_configEvents->getValue(Buzzi_PublishCartAbandonment_Model_DataBuilder::EVENT_TYPE, 'resubmission', $storeId);
+
         $cartAbandonment = $this->_createCartAbandonment();
 
         /** @var \Mage_Sales_Model_Quote $quote */
         foreach ($quoteCollection as $quote) {
-            $cartAbandonment->load($quote->getId(), 'quote_id');
-            if ($cartAbandonment->getId() && $cartAbandonment->getCreatedAt() > $quote->getUpdatedAt()) {
+            $cartAbandonment->unsetData();
+            $quoteFingerprint = $quote->getData('fingerprint');
+            $fingerprints = $this->_cartAbandonmentResource->getQuoteFingerprints($quote->getId());
+            if (!empty($fingerprints) && (!$isResubmissionAllowed || in_array($quoteFingerprint, $fingerprints))) {
                 continue;
             }
             $cartAbandonment->setStoreId($quote->getStoreId());
             $cartAbandonment->setQuoteId($quote->getId());
+            $cartAbandonment->setFingerprint($quoteFingerprint);
             $cartAbandonment->setCustomerId($quote->getCustomerId());
             $cartAbandonment->setStatus(Buzzi_PublishCartAbandonment_Model_CartAbandonment::STATUS_PENDING);
             $cartAbandonment->setCreatedAt($quoteCollection->getConnection()->formatDate($this->_getCurrentGmtTimestamp()));
             $cartAbandonment->save();
         }
+    }
+
+    /**
+     * @param \Mage_Sales_Model_Resource_Quote_Collection $quoteCollection
+     * @return void
+     */
+    protected function _prepareFingerprint($quoteCollection)
+    {
+        $quoteCollection->getSelect()->columns(
+            ['fingerprint' => new Zend_Db_Expr("md5(CONCAT(main_table.entity_id, (SELECT GROUP_CONCAT(sqi.product_id, sqi.qty ORDER BY sqi.product_id ASC) FROM sales_flat_quote_item as sqi WHERE sqi.quote_id = main_table.entity_id GROUP BY sqi.quote_id)))")]
+        );
     }
 
     /**

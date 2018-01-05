@@ -8,6 +8,8 @@
  * @method $this setStoreId($storeId)
  * @method int getQuoteId()
  * @method $this setQuoteId($quoteId)
+ * @method string getFingerprint()
+ * @method $this setFingerprint($fingerprint)
  * @method int getCustomerId()
  * @method $this setCustomerId($customerId)
  * @method string getStatus()

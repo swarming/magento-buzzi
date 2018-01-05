@@ -12,4 +12,18 @@ class Buzzi_PublishCartAbandonment_Model_Resource_CartAbandonment extends Mage_C
     {
         $this->_init('buzzi_publish_cart_abandonment/cart_abandonment', 'abandonment_id');
     }
+
+    /**
+     * @param int $quoteId
+     * @return string[]
+     */
+    public function getQuoteFingerprints($quoteId)
+    {
+        $readConnection = $this->getReadConnection();
+        $select = $readConnection->select();
+        $select->from($this->getMainTable(), 'fingerprint');
+        $select->where('quote_id = :quote_id');
+
+        return $readConnection->fetchAll($select, ['quote_id' => $quoteId], Zend_Db::FETCH_COLUMN);
+    }
 }
