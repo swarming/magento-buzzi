@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_PublishSiteSearch>
+            <version>1.0.0</version>
+        </Buzzi_PublishSiteSearch>
+    </modules>
+
+    <global>
+        <helpers>
+            <buzzi_publish_site_search>
+                <class>Buzzi_PublishSiteSearch_Helper</class>
+            </buzzi_publish_site_search>
+        </helpers>
+        <models>
+            <buzzi_publish_site_search>
+                <class>Buzzi_PublishSiteSearch_Model</class>
+            </buzzi_publish_site_search>
+        </models>
+
+        <buzzi>
+            <publish>
+                <site_search>
+                    <label>Site Search</label>
+                    <type>buzzi.ecommerce.site-search</type>
+                </site_search>
+            </publish>
+        </buzzi>
+
+        <events>
+            <controller_action_postdispatch_catalogsearch_result_index>
+                <observers>
+                    <buzzi_publish_site_search>
+                        <class>buzzi_publish_site_search/observer_siteSearch</class>
+                        <method>execute</method>
+                    </buzzi_publish_site_search>
+                </observers>
+            </controller_action_postdispatch_catalogsearch_result_index>
+        </events>
+    </global>
+
+    <crontab>
+        <jobs>
+            <buzzi_publish_event_site_search_send>
+                <run>
+                    <model>buzzi_publish_site_search/cron_submit::process</model>
+                </run>
+            </buzzi_publish_event_site_search_send>
+        </jobs>
+    </crontab>
+
+    <default>
+        <buzzi_publish_events>
+            <site_search>
+                <is_cron>1</is_cron>
+                <global_schedule>1</global_schedule>
+            </site_search>
+        </buzzi_publish_events>
+    </default>
+</config>

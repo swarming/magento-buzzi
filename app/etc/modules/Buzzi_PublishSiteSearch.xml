@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_PublishSiteSearch>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Buzzi_Publish />
+            </depends>
+        </Buzzi_PublishSiteSearch>
+    </modules>
+</config>
