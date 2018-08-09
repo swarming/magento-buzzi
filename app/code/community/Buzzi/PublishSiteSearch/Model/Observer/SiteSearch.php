@@ -12,6 +12,11 @@ class Buzzi_PublishSiteSearch_Model_Observer_SiteSearch
     protected $_configEvents;
 
     /**
+     * @var \Buzzi_Publish_Helper_Customer
+     */
+    protected $_customerHelper;
+
+    /**
      * @var \Buzzi_Publish_Model_Queue
      */
     protected $_queue;
@@ -37,6 +42,7 @@ class Buzzi_PublishSiteSearch_Model_Observer_SiteSearch
     public function __construct()
     {
         $this->_configEvents = Mage::getSingleton('buzzi_publish/config_events');
+        $this->_customerHelper = Mage::helper('buzzi_publish/customer');
         $this->_queue = Mage::getModel('buzzi_publish/queue');
         $this->_dataBuilder = Mage::getModel('buzzi_publish_site_search/dataBuilder');
         $this->_request = Mage::app()->getRequest();
@@ -60,8 +66,8 @@ class Buzzi_PublishSiteSearch_Model_Observer_SiteSearch
         $storeId = Mage::app()->getStore()->getId();
 
         if (!$this->_configEvents->isEventEnabled(Buzzi_PublishSiteSearch_Model_DataBuilder::EVENT_TYPE, $storeId)
-            ||
-            !$this->_getCustomerSession()->isLoggedIn()
+            || !$this->_getCustomerSession()->isLoggedIn()
+            || !$this->_customerHelper->isCurrentExceptsMarketing()
         ) {
             return;
         }

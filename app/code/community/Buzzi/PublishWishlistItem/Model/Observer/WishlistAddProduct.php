@@ -9,6 +9,10 @@ class Buzzi_PublishWishlistItem_Model_Observer_WishlistAddProduct
      * @var \Buzzi_Publish_Model_Config_Events
      */
     protected $_configEvents;
+    /**
+     * @var \Buzzi_Publish_Helper_Customer
+     */
+    protected $_customerHelper;
 
     /**
      * @var \Buzzi_Publish_Model_Queue
@@ -26,6 +30,7 @@ class Buzzi_PublishWishlistItem_Model_Observer_WishlistAddProduct
     public function __construct()
     {
         $this->_configEvents = Mage::getSingleton('buzzi_publish/config_events');
+        $this->_customerHelper = Mage::helper('buzzi_publish/customer');
         $this->_queue = Mage::getModel('buzzi_publish/queue');
         $this->_dataBuilder = Mage::getModel('buzzi_publish_wishlist_item/dataBuilder');
     }
@@ -47,7 +52,9 @@ class Buzzi_PublishWishlistItem_Model_Observer_WishlistAddProduct
         }
         $storeId = $wishlistItems[0]->getStoreId();
 
-        if (!$this->_configEvents->isEventEnabled(Buzzi_PublishWishlistItem_Model_DataBuilder::EVENT_TYPE, $storeId)) {
+        if (!$this->_configEvents->isEventEnabled(Buzzi_PublishWishlistItem_Model_DataBuilder::EVENT_TYPE, $storeId)
+            || !$this->_customerHelper->isCurrentExceptsMarketing()
+        ) {
             return;
         }
 

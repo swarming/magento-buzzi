@@ -129,6 +129,7 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
         }
 
         $quoteCollection->addFieldToFilter('main_table.customer_id', ['notnull' => null]);
+        $this->_filterNotAllowedCustomers($quoteCollection);
         if ($trackOnlineCustomers) {
             $this->_visitorOnline->prepare();
             $this->_filterOnlineCustomers($quoteCollection);
@@ -182,6 +183,27 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
         if (!empty($onlineCustomerIds)) {
             $quoteCollection->addFieldToFilter('main_table.customer_id', ['nin' => $onlineCustomerIds]);
         }
+    }
+
+    /**
+     * @param \Mage_Sales_Model_Resource_Quote_Collection $quoteCollection
+     * @return void
+     */
+    protected function _filterNotAllowedCustomers($quoteCollection)
+    {
+        /** @var \Mage_Eav_Model_Config $eavConfig */
+        $eavConfig = Mage::getSingleton('eav/config');
+        $attribute = $eavConfig->getAttribute('customer', \Buzzi_Publish_Helper_Customer::ATTR_EXCEPTS_MARKETING);
+
+        $quoteCollection->getSelect()->joinLeft(
+            'customer_entity_int',
+            sprintf(
+                'customer_entity_int.entity_id=main_table.customer_id and customer_entity_int.attribute_id=%d',
+                $attribute->getId()
+            ),
+            []
+        );
+        $quoteCollection->getSelect()->where('customer_entity_int.value', '1');
     }
 
     /**
