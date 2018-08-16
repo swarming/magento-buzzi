@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Swarming Technology, LLC. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Buzzi_PublishPageView>
+            <version>1.0.0</version>
+        </Buzzi_PublishPageView>
+    </modules>
+
+    <global>
+        <helpers>
+            <buzzi_publish_page_view>
+                <class>Buzzi_PublishPageView_Helper</class>
+            </buzzi_publish_page_view>
+        </helpers>
+        <models>
+            <buzzi_publish_page_view>
+                <class>Buzzi_PublishPageView_Model</class>
+            </buzzi_publish_page_view>
+        </models>
+
+        <buzzi>
+            <publish>
+                <page_view>
+                    <label>Page View</label>
+                    <type>buzzi.ecommerce.page-view</type>
+                </page_view>
+            </publish>
+        </buzzi>
+    </global>
+
+    <frontend>
+        <events>
+            <controller_action_postdispatch>
+                <observers>
+                    <buzzi_publish_page_view>
+                        <class>buzzi_publish_page_view/observer_pageView</class>
+                        <method>execute</method>
+                    </buzzi_publish_page_view>
+                </observers>
+            </controller_action_postdispatch>
+        </events>
+    </frontend>
+
+    <crontab>
+        <jobs>
+            <buzzi_publish_event_page_view_send>
+                <run>
+                    <model>buzzi_publish_page_view/cron_submit::process</model>
+                </run>
+            </buzzi_publish_event_page_view_send>
+        </jobs>
+    </crontab>
+
+    <default>
+        <buzzi_publish_events>
+            <page_view>
+                <is_cron>1</is_cron>
+                <global_schedule>1</global_schedule>
+            </page_view>
+        </buzzi_publish_events>
+    </default>
+</config>
