@@ -62,7 +62,7 @@ class Buzzi_PublishProductView_Model_Observer_ProductView
 
         if (!$this->_configEvents->isEventEnabled(Buzzi_PublishProductView_Model_DataBuilder::EVENT_TYPE, $storeId)
             || !$this->_getCustomerSession()->isLoggedIn()
-            || !$this->_customerHelper->isCurrentExceptsMarketing()
+            || !$this->_customerHelper->isCurrentAcceptsMarketing()
         ) {
             return;
         }

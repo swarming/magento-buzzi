@@ -48,7 +48,7 @@ class Buzzi_PublishCustomerRegistration_Model_Observer_CustomerRegisterSuccess
         $storeId = $currentStore->isAdmin() ? $customer->getStoreId() : $currentStore->getId();
 
         if (!$this->_configEvents->isEventEnabled(Buzzi_PublishCustomerRegistration_Model_DataBuilder::EVENT_TYPE, $storeId)
-            || !$this->_customerHelper->isExceptsMarketing($customer)
+            || !$this->_customerHelper->isAcceptsMarketing($customer)
             || ($currentStore->isAdmin() && !$this->_configEvents->getValue(Buzzi_PublishCustomerRegistration_Model_DataBuilder::EVENT_TYPE, 'track_admin_created'))
         ) {
             return;

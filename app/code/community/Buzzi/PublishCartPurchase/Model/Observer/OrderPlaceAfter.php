@@ -47,7 +47,7 @@ class Buzzi_PublishCartPurchase_Model_Observer_OrderPlaceAfter
         $storeId = $order->getStoreId();
 
         if (!$this->_configEvents->isEventEnabled(Buzzi_PublishCartPurchase_Model_DataBuilder::EVENT_TYPE, $storeId)
-            || !$this->_customerHelper->isCurrentExceptsMarketing()
+            || !$this->_customerHelper->isCurrentAcceptsMarketing()
         ) {
             return;
         }

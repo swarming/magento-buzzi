@@ -193,7 +193,7 @@ class Buzzi_PublishCartAbandonment_Model_Indexer
     {
         /** @var \Mage_Eav_Model_Config $eavConfig */
         $eavConfig = Mage::getSingleton('eav/config');
-        $attribute = $eavConfig->getAttribute('customer', \Buzzi_Publish_Helper_Customer::ATTR_EXCEPTS_MARKETING);
+        $attribute = $eavConfig->getAttribute('customer', \Buzzi_Publish_Helper_Customer::ATTR_ACCEPTS_MARKETING);
 
         $quoteCollection->getSelect()->joinLeft(
             'customer_entity_int',

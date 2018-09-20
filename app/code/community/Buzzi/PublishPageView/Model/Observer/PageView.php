@@ -54,7 +54,7 @@ class Buzzi_PublishPageView_Model_Observer_PageView
 
         if (!$this->_configEvents->isEventEnabled(Buzzi_PublishPageView_Model_DataBuilder::EVENT_TYPE, $storeId)
             || !$this->_getCustomerSession()->isLoggedIn()
-            || !$this->_customerHelper->isCurrentExceptsMarketing()
+            || !$this->_customerHelper->isCurrentAcceptsMarketing()
         ) {
             return;
         }

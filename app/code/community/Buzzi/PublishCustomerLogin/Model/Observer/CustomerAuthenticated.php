@@ -47,7 +47,7 @@ class Buzzi_PublishCustomerLogin_Model_Observer_CustomerAuthenticated
         $storeId = Mage::app()->getStore()->getId();
 
         if (!$this->_configEvents->isEventEnabled(Buzzi_PublishCustomerLogin_Model_DataBuilder::EVENT_TYPE, $storeId)
-            || !$this->_customerHelper->isExceptsMarketing($customer)
+            || !$this->_customerHelper->isAcceptsMarketing($customer)
         ) {
             return;
         }

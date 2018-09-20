@@ -53,7 +53,7 @@ class Buzzi_PublishWishlistItem_Model_Observer_WishlistAddProduct
         $storeId = $wishlistItems[0]->getStoreId();
 
         if (!$this->_configEvents->isEventEnabled(Buzzi_PublishWishlistItem_Model_DataBuilder::EVENT_TYPE, $storeId)
-            || !$this->_customerHelper->isCurrentExceptsMarketing()
+            || !$this->_customerHelper->isCurrentAcceptsMarketing()
         ) {
             return;
         }

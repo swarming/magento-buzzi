@@ -67,7 +67,7 @@ class Buzzi_PublishSiteSearch_Model_Observer_SiteSearch
 
         if (!$this->_configEvents->isEventEnabled(Buzzi_PublishSiteSearch_Model_DataBuilder::EVENT_TYPE, $storeId)
             || !$this->_getCustomerSession()->isLoggedIn()
-            || !$this->_customerHelper->isCurrentExceptsMarketing()
+            || !$this->_customerHelper->isCurrentAcceptsMarketing()
         ) {
             return;
         }
