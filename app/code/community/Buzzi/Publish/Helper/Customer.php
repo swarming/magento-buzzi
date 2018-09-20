@@ -6,7 +6,7 @@
 
 class Buzzi_Publish_Helper_Customer
 {
-    const ATTR_EXCEPTS_MARKETING = 'accepts_marketing';
+    const ATTR_ACCEPTS_MARKETING = 'accepts_marketing';
 
     /**
      * @return \Mage_Customer_Model_Session
@@ -19,17 +19,17 @@ class Buzzi_Publish_Helper_Customer
     /**
      * @return bool
      */
-    public function isCurrentExceptsMarketing()
+    public function isCurrentAcceptsMarketing()
     {
-        return $this->isExceptsMarketing($this->_getCustomerSession()->getCustomer());
+        return $this->isAcceptsMarketing($this->_getCustomerSession()->getCustomer());
     }
 
     /**
      * @param Mage_Customer_Model_Customer $customer
      * @return bool
      */
-    public function isExceptsMarketing($customer)
+    public function isAcceptsMarketing($customer)
     {
-        return (bool)$customer->getData(self::ATTR_EXCEPTS_MARKETING);
+        return (bool)$customer->getData(self::ATTR_ACCEPTS_MARKETING);
     }
 }
