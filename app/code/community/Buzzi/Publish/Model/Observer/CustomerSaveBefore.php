@@ -29,8 +29,8 @@ class Buzzi_Publish_Model_Observer_CustomerSaveBefore
         }
 
         $customer->setData(
-            \Buzzi_Publish_Helper_Customer::ATTR_EXCEPTS_MARKETING,
-            $this->_configGeneral->getDefaultExceptsMarketing()
+            \Buzzi_Publish_Helper_Customer::ATTR_ACCEPTS_MARKETING,
+            $this->_configGeneral->getDefaultAcceptsMarketing()
         );
     }
 }

@@ -6,7 +6,7 @@
 
 class Buzzi_Publish_Helper_Customer
 {
-    const ATTR_EXCEPTS_MARKETING = 'excepts_marketing';
+    const ATTR_EXCEPTS_MARKETING = 'accepts_marketing';
 
     /**
      * @return \Mage_Customer_Model_Session

@@ -14,7 +14,7 @@ if ($setup->getAttribute('customer', \Buzzi_Publish_Helper_Customer::ATTR_EXCEPT
 }
 
 $setup->addAttribute('customer', \Buzzi_Publish_Helper_Customer::ATTR_EXCEPTS_MARKETING, [
-    'label'      => 'Excepts Marketing',
+    'label'      => 'Accepts Marketing',
     'type'       => 'int',
     'input'      => 'select',
     'source'     => 'eav/entity_attribute_source_boolean',
