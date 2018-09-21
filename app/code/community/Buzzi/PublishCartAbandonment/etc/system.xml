@@ -21,7 +21,7 @@
                         </track_online_customers>
                         <quote_last_action>
                             <label>Quote Last Action Timing</label>
-                            <comment>Fetch quotes where last activity is less than the above value in days.</comment>
+                            <comment>Fetch quotes (shopping carts) where last activity is less than the above value in days. This setting prevents Buzzi from analyzing older quotes, which can degrade performance.</comment>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
